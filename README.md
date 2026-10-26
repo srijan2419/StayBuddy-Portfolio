@@ -1,71 +1,66 @@
-# StayBuddy — AI Hotel Concierge for WhatsApp
+# StayBuddy — AI Hotel Concierge Built for Paying Customers
 
-**Commercially deployed AI product • Independently engineered • Real hospitality workflows**
+**Production software • Independently built • Deployed for hospitality customers**
 
-StayBuddy is an AI-enabled guest service platform built for hotels. Guests interact through WhatsApp; staff manage requests, check-ins, orders, and operational activity through a web dashboard. I designed and built the product as the founder/engineer behind SrijanAI Innovations, including paid customer deployments.
+StayBuddy is a WhatsApp-based AI concierge and hotel-operations platform that I designed, engineered, and delivered through SrijanAI Innovations. It connects guest conversations to the workflows hotels actually need: service requests, departments, food ordering, check-in support, and staff operations.
 
-> **Portfolio edition.** This repository contains a curated, sanitized selection of real application source code, not a simulated project or a turnkey production distribution. Private infrastructure, secrets, customer data, billing account configuration, and Git history from the production repository are intentionally excluded. The original production repository remains private.
+> **This is real commercial product work, not a tutorial.** This portfolio contains selected, authentic source code from the application. The customer-facing production system and its confidential history remain private.
 
-## Why this is different from a demo
+## 30-second overview
 
-- Built for **paying customer engagements** and real hospitality operations, rather than a tutorial or hackathon.
-- Integrates **LLM-powered WhatsApp conversations** with hotel-specific operations, department routing, and staff workflows.
-- Uses a **Go backend**, **PostgreSQL**, and **React/TypeScript** dashboard with web APIs and operational data models.
-- Includes production-oriented infrastructure for authentication, auditing, deployments, and billing integrations.
-- Designed and implemented end-to-end: product requirements, code, third-party integrations, and client deployment.
-
-## Product capabilities
-
-| User | Capability |
+| | |
 | --- | --- |
-| Hotel guest | Multilingual WhatsApp assistant and contextual answers |
-| Hotel guest | Service requests, room-related queries, and food-order workflows |
-| Operations team | Department routing, conversations, check-in management, and analytics |
-| Hotel management | Property setup, staff-facing dashboard, operational visibility |
-| Business | Subscription/billing integrations and multi-property foundations |
+| **Business problem** | Hotel teams handle repetitive guest questions and service requests across multiple departments. |
+| **Product shipped** | Multilingual WhatsApp guest assistant, operational AI workflows, and a React-based staff interface. |
+| **My ownership** | Product design, AI orchestration, backend/services, integrations, dashboard, deployment, and customer delivery. |
+| **Commercial context** | Built and deployed in **paid client engagements**. Customer and payment records are intentionally not public. |
+| **Engineering stack** | **Go, PostgreSQL, React, TypeScript, WhatsApp Cloud API, LLM APIs, Docker, Stripe/Razorpay integration code**. |
 
-## System architecture
+## Start with the actual engineering
 
-```text
-Guest on WhatsApp
-       |
-       v
-WhatsApp Cloud API / webhook
-       |
-       v
-Go API service (validation, routing, application state)
-       |
-       +--> AI orchestration: context, intent classification, tool calls
-       |       |
-       |       +--> departmental workflows / service request handling
-       |
-       +--> PostgreSQL (properties, guests, stays, requests, audit data)
-       |
-       +--> React + TypeScript staff dashboard
-       |
-       +--> Payments / messaging / other configured integrations
-```
+These are **genuine source files**, not rewritten examples.
 
-## Engineering evidence
+| System | Open the code | What to look for |
+| --- | --- | --- |
+| AI orchestration | [Multi-intent orchestrator](src/backend/internal/ai/orchestrator.go) | Recent message context, structured intent classification, retries for malformed model output |
+| End-to-end conversation processing | [AI chat service](src/backend/internal/service/ai_chat_service.go) | Guest identification, incoming message handling, rate limiting, contextual workflows |
+| Department agents | [Department agent](src/backend/internal/ai/agent_department.go) | Per-department prompts, tool calling, graceful handling of tool failures |
+| Business actions | [Food ordering](src/backend/internal/ai/tools_food_order.go) · [Department tools](src/backend/internal/ai/tools_department.go) | Turning a conversation into application operations |
+| WhatsApp integration | [Webhook handler](src/backend/internal/whatsapp/webhook_handler.go) · [HMAC verification](src/backend/internal/whatsapp/signature.go) | Third-party messaging integration and request verification |
+| Commercial SaaS logic | [Subscriptions](src/backend/internal/service/subscription_service.go) · [Stripe service](src/backend/internal/service/stripe_service.go) | Billing lifecycle and third-party payment API integration |
+| Hotel operations UI | [Conversation UI](src/frontend/ChatWindow.tsx) · [Analytics card](src/frontend/AnalyticsCard.tsx) | Real React/TypeScript staff-facing components |
 
-The included code is from actual product development, not rewritten pseudocode. Sections in this portfolio demonstrate:
+[**Explore the implementation and design decisions →**](ENGINEERING_NOTES.md)
 
-1. **Applied AI:** LLM interfaces, multilingual guest communication, multi-intent routing, guardrails, and agent tools.
-2. **Backend engineering:** Go services, API design, webhook handling, state management, and data models.
-3. **Customer-facing UX:** React/TypeScript components and dashboard workflows.
+## How the product fits together
 
-See [ENGINEERING_NOTES.md](ENGINEERING_NOTES.md) for implementation details, design decisions, and limitations of this curated edition.
+~~~mermaid
+flowchart TD
+    G["Hotel guest on WhatsApp"] --> W["WhatsApp Business API / webhook"]
+    W --> B["Go application API"]
+    B --> O["LLM intent orchestration"]
+    O --> A["Department-scoped agents and tools"]
+    A --> S["Hotel service workflows"]
+    B --> D[("PostgreSQL")]
+    S --> D
+    D --> U["React / TypeScript staff dashboard"]
+    B -. "Configured billing integrations" .-> P["Stripe / Razorpay"]
+~~~
 
-## Technology
+The core engineering challenge wasn't answering a guest with an LLM; it was translating ambiguous conversations into **reliable, context-aware operational actions** while supporting real hotel staff.
 
-Go • Chi • PostgreSQL • React • TypeScript • Vite • OpenAI API • WhatsApp Business Cloud API • Docker • Stripe / Razorpay integration layers
+## What I would walk through in an interview
 
-## Commercial delivery
+1. **From chat to action:** How the orchestrator classifies multiple intents, passes context, and routes operations.
+2. **Reliability:** How the message pipeline handles guest lookup, errors, tool execution, and repeat requests.
+3. **Production integration:** Webhook verification, the WhatsApp API, PostgreSQL-backed application state, and SaaS subscription flows.
+4. **Product delivery:** Translating hotel requirements into deployed features and iterating with client feedback.
 
-**Status:** Built and deployed for paying client engagements. Specific customer names, invoices, live endpoints, and commercially sensitive operational details are not included in this public-facing portfolio. The commercial context is provided by the founder and can be discussed or substantiated privately when appropriate.
+## Commercial proof and project scope
 
-## What is intentionally omitted?
+The project was delivered as software for paying customers. This code establishes **technical implementation**, not independent proof of invoices or revenue. Commercial details can be discussed separately, with client privacy protected.
 
-No production secrets, API keys, user accounts, customer records, private video/uploads, logs, environment files, or historical commits from the production repository. Some source modules depend on excluded application infrastructure; **this curated portfolio is not advertised as an immediately runnable production deployment**.
+**Portfolio scope:** The repository uses a fresh Git history and includes a **curated subset** of real source modules. It deliberately excludes customer data, production settings, keys, logs, uploads, and private deployment infrastructure. Because modules depend on components outside this selection, this repository is **not a standalone runnable distribution** of the entire platform.
 
-**Author:** Srijan Choudhary — product founder and engineer.
+**Built by:** Srijan Choudhary • SrijanAI Innovations  
+**Source rights:** All rights reserved; provided for technical portfolio review, not as an open-source license.
